@@ -6,8 +6,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.models import Profile, User
-from users.serializers import LearnerSerializer
+from users.models import Profile, User, Flashcard
+from users.serializers import LearnerSerializer, FlashCardSerializer
 
 error_status = {
     'auth_fields_defect': 101,
@@ -61,3 +61,24 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.queryset.filter(user=self.request.user).first()
 
+
+class FlashCardView(generics.ListCreateAPIView):
+    queryset = Flashcard.objects.all()
+    serializer_class = FlashCardSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(learner__user=self.request.user)
+
+    def perform_create(self, serializer):
+        learner = Profile.objects.all().filter(user=self.request.user).first()
+        learnt, word = self.request.data['learnt'], self.request.data['word']
+        serializer.save(learner=learner,
+                        learnt=learnt, word=word)
+
+
+class LearnFlashCardView(generics.RetrieveUpdateAPIView):
+    queryset = Flashcard.objects.all()
+    serializer_class = FlashCardSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(learner__user=self.request.user)

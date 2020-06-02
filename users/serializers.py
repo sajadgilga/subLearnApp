@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from users.models import User, Profile
+from users.models import User, Profile, Word
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -36,3 +36,9 @@ class LearnerSerializer(serializers.ModelSerializer):
         profile_updated = super().update(instance, validated_data)
         profile_updated.user = user
         return instance
+
+
+class WordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Word
+        fields = ('__ALL__')

@@ -54,7 +54,7 @@ class Exam(models.Model):
 class Word(models.Model):
     english_word = models.CharField(max_length=64)
     translation = models.CharField(max_length=64)
-    difficulty = models.CharField(max_length=64)
+    difficulty = models.FloatField(default=7.7)
 
 
 class Flashcard(models.Model):

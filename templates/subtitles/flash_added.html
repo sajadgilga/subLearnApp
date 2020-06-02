@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="ui container" style="margin-top: 1em;">
+        <h1>Flashcard added successfully!</h1>
+        <div class="ui container">
+            <a class="ui teal labeled icon button" href="{% url 'subtitles:download_sub' %}"> Download the enchanted subtitle <i class="download icon"></i> </a>
+            <a class="ui violet labeled icon button" href="{% url 'subtitles:download_words_list' %}"> Download new words list <i class="download icon"></i> </a>
+            <a class="ui blue button" href="{% url 'flashcards:load_decks' %}"> Goto flashcard decks </a>
+        </div>
+    </div>
+{% endblock content %}

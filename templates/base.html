@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://semantic-ui.com/examples/homepage.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'semantic/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/flipper.css' %}">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Sublearn</title>
+    {% endif %}
+    <style type='text/css'>
+    </style>
+</head>
+<body>
+
+<!-- Following Menu -->
+{% block menu %}
+<div class="ui large top menu" style="margin:0">
+    <div class="ui container">
+        <a class="active item"><i class="home large icon"></i></a>
+        <div class="right menu">
+            <div class="item">
+                {% if user.is_authenticated %}
+                <a class="ui button" href= "{% url 'users:logout' %}">
+                    Log out
+                </a>
+                {% else %}
+                <a class="ui button" href= "{% url 'users:login' %}">
+                    Log in
+                </a>
+                {% endif %}
+            </div>
+            <div class="item">
+                {% if not user.is_authenticated %}
+                <a class="ui primary button" href="{% url 'users:register' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Page Contents -->
+{% if messages %}
+{% for message in messages %}
+<div class="ui container" style="margin-top: 1em;">
+    <div class="ui olive message">
+        {{ message }}
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="ui grid" style="margin: auto; min-height: 80%;">
+    {% if user.is_authenticated %}
+    <div class="four wide column">
+        <div class="ui large vertical menu">
+            <a class="item active" href="{% url 'users:profile' %}">
+                Profile
+            </a>
+            <a class="item" href="{% url 'subtitles:sub_processor' %}">
+                Subtitle
+            </a>
+            <a class="item" href="{% url 'flashcards:load_decks' %}">
+                Flashcard Decks
+            </a>
+        </div>
+    </div>
+    {% endif %}
+    <div class="twelve wide stretched column" style="margin: auto;">
+        <div class="ui segment">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+
+<div class="ui inverted vertical footer segment">
+    <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+            <div class="five wide column">
+                <h4 class="ui inverted header">About</h4>
+                <div class="ui inverted link list">
+                    <a href="https://sharif.ir" class="item">Made with <i class='heart icon'></i> at Sharif University of Technology</a>
+                    <a href="https://ce.sharif.edu" class="item">Contact Us</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header">Notices</h4>
+                <p> Azadi Ave. Tehran, Sharif University of Technology.</p>
+                <i class='copyright icon'></i>2020 All rights reserved.
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

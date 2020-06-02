@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="ui container" style="margin-top: 1em;">
+        <h1 style="font-size: 24pt"> Congrats!</h1>
+        <h3 style="font-size: 18pt; margin-bottom: 15pt;">You'll learn {{count}} new words.</h3>
+        <div class="ui container">
+            <a class="ui inverted green labeled icon button" href="{% url 'subtitles:download_sub' %}" style='margin-right: 25px;'> Download the enchanted subtitle <i class="download icon"></i> </a>
+            <a class="ui inverted violet labeled icon button" href="{% url 'subtitles:download_words_list' %}"> Download new words list <i class="download icon"></i> </a>
+        </div>
+        <div class="ui container" style='margin-top: 25px;'>
+            <form class="ui form" method="POST">
+                {% csrf_token %}
+                <div class="inline fields">
+                    <div class="eight wide field">
+                        <label style="color: rgb(12, 132, 231); font-size: 14pt;"> Title: </label>
+                        <input type="text" name="movie_name" placeholder="{{ name }}" text="{{ name }}">
+                    </div>
+                    <div class="five wide field">
+                        <button class="ui button" type="submit">Add Flashcards</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

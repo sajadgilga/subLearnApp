@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="ui container" style="margin-top: 5em; margin-bottom: 5em;">
+        {% if movie_sets %}
+        <div class="ui cards">
+            {% for movie_set in movie_sets %}
+                <a  href="{% url 'flashcards:show_flashcards' movie_set.id %}" class="ui inverted violet button" style="font-size: 18pt; margin-bottom: 10pt;">
+                    <!-- <a href="{% url 'flashcards:show_flashcards' movie_set.id %}" style="align-items: center;"> -->
+                        {{ movie_set.movie_name }}
+                        <!-- <div class="content center aligned front">
+                            <br>
+                            <br>
+                            <h2 class="ui purple header" style="color: blue;"> {{ movie_set.movie_name }} </h2>
+                            <br>
+                            <br>
+                        </div> -->
+                    <!-- </a> -->
+                    </a>
+            {% endfor %}
+        </div>
+        {% else %}
+            <h2>You've not created any decks.</h2>
+        {% endif %}
+    </div>
+{% endblock content %}

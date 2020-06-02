@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="ui container" style="margin-top:1em">
+        <h1>You are {{ user.username }} </h1>
+        <div class="ui small image">
+            <img src = "{{ user.profile.image.url }}">
+        </div>
+    </div>
+
+    <div class="ui container" style="margin-top: 1em;">
+        <form class="ui form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for form in forms %}
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="ui red message">
+                                Error with field {{ field.label }}: {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% if form.non_field_errors %}
+                        <div class="ui red message">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                {% endif %}
+                
+                {% for field in form %}
+                    <div class="field">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            <button class="ui button" type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock content %}

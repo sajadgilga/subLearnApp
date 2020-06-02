@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+    <div class="ui container" style="margin-top: 1em;">
+        <h1> {{ set.movie_name }} </h1>
+        {% if set.flashcard_set.all %}
+        <div class="ui cards">
+            {% for flashcard in set.flashcard_set.all %}
+                <div class="flip_card ui card">
+                    <div class="content center aligned front">
+                        <br>
+                        <h2> {{ flashcard.english_word }} </h2>
+                    </div>
+                    <div class="content center aligned back">
+                            <h3> {{ flashcard.english_word }} </h3>
+                        <div class="content">
+                            <h3> {{ flashcard.translation }} </h3>
+                        </div> <br>
+                        <div class="extra content">
+                            <div class="ui bottom attached medium buttons">
+                                <button class="positive ui button">I know</button>
+                                <div class="or"></div>
+                                <button class="negative ui button">I learn</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <h2>This movie deck does not have any flashcards.</h2>
+        {% endif %}
+    </div>
+    <script>
+    $(function($) {
+      $(".flip_card").flip();
+    });
+    </script>
+{% endblock content %}

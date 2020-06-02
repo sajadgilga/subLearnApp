@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'semantic/semantic.min.css' %}">
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  <script src="{% static 'semantic/semantic.min.js' %}"></script>
+
+  {% if title %}
+      <title>{{ title }}</title>
+  {% else %}
+      <title>Django Blog</title>
+  {% endif %}
+</head>
+<body>
+  <div class="ui labeled button" tabindex="0">
+    <div class="ui red button">
+      <i class="heart icon"></i> Like
+    </div>
+    <a class="ui basic red left pointing label">
+      1,048
+    </a>
+  </div>
+  <main role="main" class="container">
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</body>
+</html>

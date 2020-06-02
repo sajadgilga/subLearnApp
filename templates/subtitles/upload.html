@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="ui container" style="margin-top: 1em;">
+        <form class="ui form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="ui red message">
+                            Error with field {{ field.label }}: {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% if form.non_field_errors %}
+                    <div class="ui red message">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <div class="field">
+                <label>Upload Subtitle</label>
+                <input type="file" name="subtitle">
+            </div>
+
+            <button class="ui button" type="submit">Upload</button>
+        </form>
+    </div>
+{% endblock content %}

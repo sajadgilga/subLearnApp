@@ -27,13 +27,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ['*']
 
 CORS_ALLOW_METHODS = (
+    'DELETE',
     'GET',
-    'POST',
+    'OPTIONS',
     'PATCH',
-    'UPDATE',
-    'DELETE'
+    'POST',
+    'PUT',
 )
 
 # Application definition
@@ -47,12 +49,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-
+    'corsheaders',
     'users',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

@@ -26,6 +26,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PATCH',
+    'UPDATE',
+    'DELETE'
+)
+
 # Application definition
 
 INSTALLED_APPS = [

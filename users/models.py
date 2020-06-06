@@ -7,13 +7,14 @@ from django.db import models
 from EnglishLearning import settings
 
 fs = FileSystemStorage(location='media/subs')
+imgFs = FileSystemStorage(location='media/profile_pics')
 
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=30, default='')
     last_name = models.CharField(max_length=30, default='')
     email = models.EmailField()
-    image = models.ImageField(default='default.jpeg', upload_to='profile_pics')  # todo upload_to
+    image = models.ImageField(default='default.jpeg', storage=imgFs)  # todo upload_to
     enabled = models.BooleanField(default=True)
 
     #

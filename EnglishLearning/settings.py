@@ -27,7 +27,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = ['*']
 
 CORS_ALLOW_METHODS = (
     'DELETE',
@@ -99,6 +98,7 @@ REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'users.pagination.StandardResultsSetPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],

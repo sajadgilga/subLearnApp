@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from users.models import User, Profile, Flashcard, Word
+from users.models import User, Profile, Flashcard, Word, Subtitle
 
 
 @admin.register(User)
@@ -15,9 +15,14 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Flashcard)
 class FlashCardAdmin(admin.ModelAdmin):
-    list_display = ('learnt',)
+    list_display = ('learnt', 'word')
 
 
 @admin.register(Word)
 class WordAdmin(admin.ModelAdmin):
     list_display = ('english_word', 'difficulty')
+
+
+@admin.register(Subtitle)
+class SubtitleAdmin(admin.ModelAdmin):
+    list_display = ('name', 'upload_time', 'learner')

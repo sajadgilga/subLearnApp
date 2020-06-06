@@ -1,6 +1,8 @@
+import base64
+
 from rest_framework import serializers
 
-from users.models import User, Profile, Word, Flashcard
+from users.models import User, Profile, Word, Flashcard, Subtitle
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -47,12 +49,20 @@ class WordSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class FlashCardSerializer(serializers.ModelSerializer):
+class SubtitleBriefSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subtitle
+        fields = ('name', 'upload_time',)
+
+
+class FlashcardSerializer(serializers.ModelSerializer):
     word = WordSerializer()
+    subtitle_name = SubtitleBriefSerializer(many=True, read_only=True)
 
     class Meta:
         model = Flashcard
-        fields = ('learnt', 'word', 'id')
+        fields = ('learnt', 'word', 'id', 'subtitle_name')
+        read_only_fields = ('id',)
 
     def update(self, instance, validated_data):
         if validated_data.get('word'):
@@ -71,3 +81,30 @@ class FlashCardSerializer(serializers.ModelSerializer):
         word = Word.objects.create(**word_data)
         instance = Flashcard.objects.create(**validated_data, word=word)
         return instance
+
+
+class FlashcardBriefSerializer(serializers.ModelSerializer):
+    word = WordSerializer()
+
+    class Meta:
+        model = Flashcard
+        fields = ('learnt', 'word', 'id',)
+        read_only_fields = ('id',)
+
+
+class SubtitleSerializer(serializers.ModelSerializer):
+    flashcards = FlashcardBriefSerializer(many=True, read_only=True)
+    file = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Subtitle
+        fields = ('name', 'upload_time', 'flashcards', 'file')
+        read_only_fields = ('upload_time', 'file')
+
+    def get_file(self, obj):
+        # file_content = obj.file.read()
+        # return base64.b64encode(file_content)
+        try:
+            return obj.file.storage.base_location + '/' + obj.file.name
+        except Exception as _:
+            return ''

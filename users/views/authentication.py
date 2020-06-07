@@ -12,6 +12,7 @@ from users.serializers import LearnerSerializer, FlashcardSerializer
 error_status = {
     'auth_fields_defect': 101,
     'wrong_credentials': 102,
+    'unavailable_id': 203,
 }
 
 

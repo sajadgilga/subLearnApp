@@ -13,4 +13,6 @@ urlpatterns = [
     path(r'flashcards/', FlashCardView.as_view(), name="flashcards"),
     path(r'learn_flashcard/<pk>', LearnFlashCardView.as_view(), name="flashcards"),
     path(r'learn_subtitle/', LearnSubtitle.as_view(), name="subtitle"),
+    path(r'learn/<int:pk>/', LearnView.as_view(), name="flashcards"),
+    path(r'learn/<int:pk>/<int:learned>/', LearnView.as_view(), name="flashcards"),
 ]

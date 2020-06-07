@@ -62,7 +62,7 @@ class Word(models.Model):
 
 
 class Flashcard(models.Model):
-    learnt = models.FloatField(default=0.0)
+    learnt = models.FloatField(default=0.2)
     learner = models.ForeignKey(Profile, null=False, blank=False, on_delete=models.CASCADE, )
     word = models.ForeignKey(Word, null=False, blank=False, on_delete=models.CASCADE, )
     subtitles = models.ManyToManyField(Subtitle, related_name='flashcards')

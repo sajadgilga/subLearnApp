@@ -1,13 +1,16 @@
 from threading import Thread
 
 from django.db.models import Q
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from users.models import Flashcard, Profile, Subtitle, Word
 from users.pagination import StandardResultsSetPagination
 from users.serializers import FlashcardSerializer, SubtitleSerializer
 from users.utils import get_file_from_data_url, process_sub
+from users.views.authentication import error_status
 
 
 class FlashCardView(generics.ListCreateAPIView):
@@ -30,6 +33,27 @@ class LearnFlashCardView(generics.RetrieveUpdateAPIView):
 
     def get_queryset(self):
         return self.queryset.filter(learner__user=self.request.user)
+
+
+class LearnView(APIView):
+    queryset = Flashcard.objects.all()
+    serializer_class = FlashcardSerializer
+
+    def get(self, request, pk, learned=1, *args, **kwargs):
+        try:
+            _card = self.queryset.get(id=pk)
+            if learned > 0:
+                if _card.learnt < .2:
+                    _card.learnt = .25
+                _card.learnt = _card.learnt ** _card.learnt
+            else:
+                if _card.learnt > .9:
+                    _card.learnt = .85
+                _card.learnt = _card.learnt ** (_card.learnt * 10)
+            _card.save()
+            return Response()
+        except Exception as _:
+            return Response({'code': error_status['unavailable_id']}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LearnSubtitle(mixins.CreateModelMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
@@ -58,10 +82,15 @@ class LearnSubtitle(mixins.CreateModelMixin, mixins.RetrieveModelMixin, generics
 
     def save_words(self, text, extension, learner, subtitle):
         result_words, result_text = process_sub(text, extension, 3)
-        for word, trans in result_words:
+        file = open(subtitle.file.path, 'w')
+        file.write(result_text)
+        file.close()
+        subtitle.save()
+        for word, trans, difficulty in result_words:
             flashcard = Flashcard.objects.filter(word__english_word=word)
             if len(flashcard) is 0:
-                new_word = Word.objects.create(english_word=word, translation=trans)  # TODO: difficulty set
+                new_word = Word.objects.create(english_word=word, translation=trans,
+                                               difficulty=difficulty)
                 flashcard = Flashcard.objects.create(learner=learner, word=new_word)
             else:
                 flashcard = flashcard[0]

@@ -16,6 +16,7 @@ def get_file_from_data_url(data_url):
 
 def process_sub(text, file_type, score):
     important_words = {}
+    words_difficulty = {}
     if file_type in '.srt' or file_type in '.ass' or file_type in 'x-ssa':
         text = text.decode('iso-8859-1')
         text = text.split('\r\n\r\n')
@@ -25,8 +26,9 @@ def process_sub(text, file_type, score):
                 line = tokenize(line, 'en')
                 for word in line:
                     _freq = zipf_frequency(word, 'en')
-                    if score / 1.05 < _freq < score * 1.2 and word not in important_words:
+                    if score / 1.05 < _freq < score * 1.1 and word not in important_words:
                         important_words[word] = i
+                        words_difficulty[word] = _freq
         translator = Translator()
         ready_words = list(important_words.keys())
         result = translator.translate(ready_words, src='en', dest='fa')
@@ -52,5 +54,5 @@ def process_sub(text, file_type, score):
             else:
                 new_text += segment
                 new_text += "\r\n\r\n"
-        answer = [[res.origin, res.text] for res in result]
+        answer = [[res.origin, res.text, words_difficulty[res.origin]] for res in result]
         return answer, new_text

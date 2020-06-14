@@ -3,6 +3,7 @@ from django.urls import path
 from users import views
 from users.views.Learning import *
 from users.views.authentication import *
+from users.views.exam import *
 
 app_name = "users"
 
@@ -15,4 +16,6 @@ urlpatterns = [
     path(r'learn_subtitle/', LearnSubtitle.as_view(), name="subtitle"),
     path(r'learn/<int:pk>/', LearnView.as_view(), name="flashcards"),
     path(r'learn/<int:pk>/<int:learned>/', LearnView.as_view(), name="flashcards"),
+    path('exam/', ExamView.as_view, name="exam"),
+    path('exam/score/', ExamScoreView.as_view, name="exam_score"),
 ]

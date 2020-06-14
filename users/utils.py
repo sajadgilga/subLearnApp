@@ -1,7 +1,7 @@
 import base64, secrets
 
 from django.core.files.base import ContentFile
-from wordfreq import zipf_frequency, tokenize
+from wordfreq import *
 from googletrans import Translator
 
 
@@ -56,3 +56,18 @@ def process_sub(text, file_type, score):
                 new_text += "\r\n\r\n"
         answer = [[res.origin, res.text, words_difficulty[res.origin]] for res in result]
         return answer, new_text
+
+
+def exam_list(num_words=50):
+    boundaries = [0, 3, 4, 5, float('Inf')]
+    samples_cnt = [0, min(25, num_words//4), min(25, num_words//4), min(15, num_words//4)]
+    samples_cnt[0] = num_words - sum(samples_cnt)
+    zipf_dict = {x:freq_to_zipf(y) for x, y in get_frequency_dict('en').items()}
+    words_by_section = [[x for x, y in zipf_dict.items() if boundaries[i] < y <= boundaries[i+1]] for i in range(len(boundaries)-1)]
+
+    exam_words = []
+    sucure_random = secrets.SystemRandom()
+    for i in range(len(words_by_section)):
+        exam_words.extend(secure_random.sample(words_by_section[i], samples_cnt[i]))
+
+    return exam_words

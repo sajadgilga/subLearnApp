@@ -17,7 +17,7 @@ urlpatterns = [
     path(r'learn_subtitle/', LearnSubtitle.as_view(), name="subtitle"),
     path(r'learn/<int:pk>/', LearnView.as_view(), name="flashcards"),
     path(r'learn/<int:pk>/<int:learned>/', LearnView.as_view(), name="flashcards"),
-    path('exam/', ExamView.as_view, name="exam"),
-    path('exam/score/', ExamScoreView.as_view, name="exam_score"),
+    path('exam/', ExamView.as_view(), name="exam"),
+    path('exam/score/', ExamScoreView.as_view(), name="exam_score"),
     path(r'payment/', PaymentView.as_view(), name='payment')
 ]

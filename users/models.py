@@ -49,7 +49,7 @@ class Subtitle(models.Model):
 
 
 class Exam(models.Model):
-    time = models.DateTimeField()
+    time = models.DateTimeField(auto_now_add=True)
     score = models.FloatField()
     learner = models.ForeignKey(Profile, null=False, blank=False, on_delete=models.CASCADE, )
     words = models.ManyToManyField("Word")

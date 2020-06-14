@@ -17,6 +17,7 @@ def get_file_from_data_url(data_url):
 def process_sub(text, file_type, score):
     important_words = {}
     words_difficulty = {}
+    score = (1-score) * max_zipf()
     if file_type in '.srt' or file_type in '.ass' or file_type in 'x-ssa':
         text = text.decode('iso-8859-1')
         text = text.split('\r\n\r\n')
@@ -56,6 +57,10 @@ def process_sub(text, file_type, score):
                 new_text += "\r\n\r\n"
         answer = [[res.origin, res.text, words_difficulty[res.origin]] for res in result]
         return answer, new_text
+
+
+def max_zipf():
+    return freq_to_zipf('the')
 
 
 def exam_list(num_words=50):

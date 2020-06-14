@@ -71,3 +71,14 @@ def exam_list(num_words=50):
         exam_words.extend(secure_random.sample(words_by_section[i], samples_cnt[i]))
 
     return exam_words
+
+
+def score_by_exam(words, answered):
+    # answered[i]:boolean shows that user knows the i-th word
+    out_of_score = 0.0
+    scored = 0.0
+    for i, word in enumerate(words):
+        out_of_score += zipf_frequency(word)
+        scored += zipf_frequency(word) if answered[i] else 0
+    
+    return scored / out_of_score

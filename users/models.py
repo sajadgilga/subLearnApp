@@ -1,4 +1,3 @@
-from PIL import Image
 from django.contrib.auth.models import AbstractUser
 from django.core.files.storage import FileSystemStorage
 from django.db import models
@@ -16,6 +15,7 @@ class User(AbstractUser):
     email = models.EmailField()
     image = models.ImageField(default='default.jpeg', storage=imgFs)  # todo upload_to
     enabled = models.BooleanField(default=True)
+    end_time = models.DateTimeField(null=True)
 
     #
     # def save(self, *args, **kwargs):
@@ -29,8 +29,8 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, null=False, blank=False, on_delete=models.CASCADE,
-                             related_name='profile')
+    user = models.OneToOneField(to=settings.AUTH_USER_MODEL, null=False, blank=False, on_delete=models.CASCADE,
+                                related_name='profile')
     score = models.FloatField(default=0)
 
 

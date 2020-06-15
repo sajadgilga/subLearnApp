@@ -108,3 +108,9 @@ class SubtitleSerializer(serializers.ModelSerializer):
             return obj.file.storage.base_location + '/' + obj.file.name
         except Exception as _:
             return ''
+
+
+class PaymentSerializer(serializers.Serializer):
+    amount = serializers.IntegerField()
+    time = serializers.DateTimeField()
+    end_time = serializers.DateTimeField()

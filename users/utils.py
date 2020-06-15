@@ -87,3 +87,11 @@ def score_by_exam(words, answered):
         scored += zipf_frequency(word, 'en') if answered[i] else 0
     
     return scored / out_of_score
+
+"""
+def next_score(cur_score):
+    checkpoints = [0.2, 0.4, 0.6, 0.8, 1.0]
+    for sc in checkpoints:
+        if cur_score < sc:
+            return sc
+"""

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from users.models import User, Profile, Flashcard, Word, Subtitle
+from users.models import User, Profile, Flashcard, Word, Subtitle, Exam
 
 
 @admin.register(User)
@@ -26,3 +26,7 @@ class WordAdmin(admin.ModelAdmin):
 @admin.register(Subtitle)
 class SubtitleAdmin(admin.ModelAdmin):
     list_display = ('name', 'upload_time', 'learner')
+
+@admin.register(Exam)
+class ExamAdmin(admin.ModelAdmin):
+    list_display = ('learner', 'score')

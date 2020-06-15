@@ -28,4 +28,4 @@ class ExamScoreView(APIView):
         user.profile.score = score
         user.profile.save()
 
-        return Response(data= {"status": "ok"})
+        return Response(data= {"score": score})

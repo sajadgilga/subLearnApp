@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication
 from users.utils import exam_list, score_by_exam
-from users.models import Exam
+from users.models import Exam, Word
 
 
 class ExamView(APIView):
@@ -12,16 +12,20 @@ class ExamView(APIView):
 
 class ExamScoreView(APIView):
     authentication_classes = [authentication.TokenAuthentication]
+    all_words = Word.objects.all()
 
     def post(self, request):
         user = request.user
-        words = request.data["words"]
+        exam_words = request.data["words"]
         answered = request.data["answered"]
 
-        score = score_by_exam(words, answered)
+        score = score_by_exam(exam_words, answered)
 
-        exam = Exam.objects.create(learner=user.profile, words=words, score=score)
+        exam = Exam.objects.create(learner=user.profile, score=score)
+        exam.words.set(self.all_words.filter(english_word__in=exam_words))
         exam.save()
 
         user.profile.score = score
         user.profile.save()
+
+        return Response(data= {"status": "ok"})

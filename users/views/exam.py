@@ -2,7 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication
 from users.utils import exam_list, score_by_exam
-from users.models import Exam, Word
+from users.models import Exam, Word, Flashcard
+from users.serializers import FlashcardBriefSerializer
 
 
 class ExamView(APIView):
@@ -29,3 +30,15 @@ class ExamScoreView(APIView):
         user.profile.save()
 
         return Response(data= {"score": score})
+
+
+class FlashCardExamView(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    queryset = Flashcard.objects.all()
+    
+    def get(self, request, sample_count=10):
+        # words = self.queryset.values('word')
+        user = request.user
+        random_flashcards = self.queryset.order_by('?')[:sample_count]
+        serializer = FlashcardBriefSerializer(random_flashcards, many=True)
+        return Response(serializer.data)

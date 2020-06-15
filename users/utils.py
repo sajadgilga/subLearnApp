@@ -60,7 +60,7 @@ def process_sub(text, file_type, score):
 
 
 def max_zipf():
-    return freq_to_zipf('the')
+    return zipf_frequency('the', 'en')
 
 
 def exam_list(num_words=50):
@@ -71,7 +71,7 @@ def exam_list(num_words=50):
     words_by_section = [[x for x, y in zipf_dict.items() if boundaries[i] < y <= boundaries[i+1]] for i in range(len(boundaries)-1)]
 
     exam_words = []
-    sucure_random = secrets.SystemRandom()
+    secure_random = secrets.SystemRandom()
     for i in range(len(words_by_section)):
         exam_words.extend(secure_random.sample(words_by_section[i], samples_cnt[i]))
 
@@ -83,7 +83,7 @@ def score_by_exam(words, answered):
     out_of_score = 0.0
     scored = 0.0
     for i, word in enumerate(words):
-        out_of_score += zipf_frequency(word)
-        scored += zipf_frequency(word) if answered[i] else 0
+        out_of_score += zipf_frequency(word, 'en')
+        scored += zipf_frequency(word, 'en') if answered[i] else 0
     
     return scored / out_of_score

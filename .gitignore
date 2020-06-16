@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 venv/
+media/subs/
 
 # Latex
 ## Core latex/pdflatex auxiliary files:

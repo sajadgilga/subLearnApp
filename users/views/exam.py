@@ -39,6 +39,6 @@ class FlashCardExamView(APIView):
     def get(self, request, sample_count=10):
         # words = self.queryset.values('word')
         user = request.user
-        random_flashcards = self.queryset.order_by('?')[:sample_count]
+        random_flashcards = user.profile.flashcard_set.order_by('?')[:sample_count]
         serializer = FlashcardBriefSerializer(random_flashcards, many=True)
         return Response(serializer.data)

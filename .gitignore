@@ -378,3 +378,4 @@ db.sqlite3
 
 #the images for media
 profile_pics/
+.env

@@ -44,11 +44,11 @@ class LearnView(APIView):
             _card = self.queryset.get(id=pk)
             if learned > 0:
                 if _card.learnt < .2:
-                    _card.learnt = .25
+                    _card.learnt = .24
                 _card.learnt = _card.learnt ** _card.learnt
             else:
                 if _card.learnt > .9:
-                    _card.learnt = .85
+                    _card.learnt = .86
                 _card.learnt = _card.learnt ** (_card.learnt * 10)
             _card.save()
             return Response()

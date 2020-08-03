@@ -81,7 +81,7 @@ class LearnSubtitle(mixins.CreateModelMixin, mixins.RetrieveModelMixin, generics
         t.start()
 
     def save_words(self, text, extension, learner, subtitle):
-        result_words, result_text = process_sub(text, extension, 3)
+        result_words, result_text = process_sub(text, extension, learner.score)
         file = open(subtitle.file.path, 'w')
         file.write(result_text)
         file.close()

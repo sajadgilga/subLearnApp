@@ -14,7 +14,7 @@ idna==2.9
 langcodes==2.0.0
 marisa-trie==0.7.5
 msgpack==1.0.0
-Pillow==7.1.2
+Pillow==9.0.1
 psycopg2==2.8.5
 psycopg2-binary==2.8.5
 python-dotenv==0.13.0
